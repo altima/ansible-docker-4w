@@ -1,13 +1,13 @@
-FROM alpine:3.4
+FROM alpine
 
 RUN echo "===> Installing sudo to emulate normal OS behavior..."  && \
     apk --update add sudo                                         && \
     \
     \
     echo "===> Adding Python runtime..."  && \
-    apk --update add python py-pip openssl ca-certificates    && \
+    apk --update add python3 py-pip openssl ca-certificates    && \
     apk --update add --virtual build-dependencies \
-                python-dev libffi-dev openssl-dev build-base  && \
+                python3-dev libffi-dev openssl-dev build-base  && \
     pip install --upgrade pip cffi                            && \
     \
     \
@@ -16,16 +16,18 @@ RUN echo "===> Installing sudo to emulate normal OS behavior..."  && \
     \
     \
     echo "===> Installing Ansible..."  && \
-    pip install ansible==2.5.7         && \
+    pip install ansible         && \
     \
     \
     echo "===> Installing pip packages ..."  && \
-    pip install pywinrm xmltodict kerberos requests_kerberos && \
+    pip install pywinrm xmltodict pykerberos requests_kerberos requests-credssp && \
     \
     \
     echo "===> Removing package list..."  && \
     apk del build-dependencies            && \
     rm -rf /var/cache/apk/*
+
+COPY files/krb5.conf /etc/
 
 # default command: display Ansible version
 CMD [ "ansible-playbook", "--version" ]

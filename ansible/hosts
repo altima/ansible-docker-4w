@@ -1,0 +1,10 @@
+[test]
+server2022.win2012r2.test.local
+
+[test:vars]
+ansible_user="admin.user@win2012r2.test.local"
+ansible_password=<PASSWORD>
+ansible_connection=winrm
+ansible_port=5985
+ansible_winrm_transport=kerberos
+ansible_winrm_server_cert_validation=ignore
