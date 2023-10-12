@@ -20,7 +20,7 @@ RUN echo "===> Installing sudo to emulate normal OS behavior..."  && \
     \
     \
     echo "===> Installing pip packages ..."  && \
-    pip install pywinrm xmltodict pykerberos requests_kerberos requests-credssp && \
+    pip install pywinrm xmltodict pykerberos requests_kerberos requests-credssp jmespath && \
     \
     \
     echo "===> Removing package list..."  && \
@@ -28,6 +28,9 @@ RUN echo "===> Installing sudo to emulate normal OS behavior..."  && \
     rm -rf /var/cache/apk/*
 
 COPY files/krb5.conf /etc/
+
+VOLUME [ "/playbooks" ]
+WORKDIR  /playbooks
 
 # default command: display Ansible version
 CMD [ "ansible-playbook", "--version" ]
